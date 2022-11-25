@@ -1,0 +1,23 @@
+{
+  "name": "link-nodejs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/vtvy/link-nodejs.git",
+  "author": "vtvy <votrieuvy161@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "d": "nodemon server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.1",
+    "knex": "^2.3.0",
+    "mysql": "^2.18.1"
+  }
+}
