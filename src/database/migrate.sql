@@ -17,8 +17,8 @@ CREATE TABLE `folders` (
     `name` varchar(50)  NOT NULL ,
     `author` int(10)  NOT NULL ,
     `parent` int(10)  NULL ,
-    `createAt` dateTime  NOT NULL ,
-    `updateAt` dateTime  NOT NULL ,
+    `createAt` dateTime  DEFAULT CURRENT_TIMESTAMP ,
+    `updateAt` dateTime  ON UPDATE CURRENT_TIMESTAMP ,
     PRIMARY KEY (
         `id`
     )
@@ -30,8 +30,8 @@ CREATE TABLE `images` (
     `url` varchar(100)  NOT NULL ,
     `author` int(10)  NOT NULL ,
     `parent` int(10)  NULL ,
-    `createAt` dateTime  NOT NULL ,
-    `updateAt` dateTime  NOT NULL ,
+    `createAt` dateTime  DEFAULT CURRENT_TIMESTAMP ,
+    `updateAt` dateTime  ON UPDATE CURRENT_TIMESTAMP ,
     PRIMARY KEY (
         `id`
     )
@@ -42,11 +42,12 @@ CREATE TABLE `links` (
     `name` varchar(50)  NOT NULL ,
     `public` boolean  NOT NULL ,
     `passwd` varchar(100)  NOT NULL ,
+    `color` varchar(6)  NULL ,
     `url` varchar(100)  NOT NULL ,
     `author` int(10)  NOT NULL ,
     `parent` int(10)  NULL ,
-    `createAt` dateTime  NOT NULL ,
-    `updateAt` dateTime  NOT NULL ,
+    `createAt` dateTime  DEFAULT CURRENT_TIMESTAMP ,
+    `updateAt` dateTime  ON UPDATE CURRENT_TIMESTAMP ,
     PRIMARY KEY (
         `id`
     )
@@ -58,8 +59,8 @@ CREATE TABLE `notes` (
     `content` text  NOT NULL ,
     `author` int(10)  NOT NULL ,
     `parent` int  NOT NULL ,
-    `createAt` dateTime  NOT NULL ,
-    `updateAt` dateTime  NOT NULL ,
+    `createAt` dateTime  DEFAULT CURRENT_TIMESTAMP ,
+    `updateAt` dateTime  ON UPDATE CURRENT_TIMESTAMP ,
     PRIMARY KEY (
         `id`
     )
