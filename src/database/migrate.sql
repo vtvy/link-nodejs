@@ -58,7 +58,7 @@ CREATE TABLE `notes` (
     `name` varchar(50)  NOT NULL ,
     `content` text  NOT NULL ,
     `author` int(10)  NOT NULL ,
-    `parent` int  NOT NULL ,
+    `parent` int NULL ,
     `createAt` dateTime  DEFAULT CURRENT_TIMESTAMP ,
     `updateAt` dateTime  ON UPDATE CURRENT_TIMESTAMP ,
     PRIMARY KEY (
