@@ -4,6 +4,7 @@ use link;
 CREATE TABLE `users` (
     `id` int(10) AUTO_INCREMENT NOT NULL ,
     `name` varchar(50)  NOT NULL ,
+    `avatar` varchar(100) NULL ,
     `username` varchar(20)  NOT NULL ,
     `passwd` varchar(100)  NOT NULL ,
     `role` boolean  DEFAULT FALSE ,
@@ -30,7 +31,7 @@ CREATE TABLE `links` (
     `name` varchar(50)  NOT NULL ,
     `public` boolean  DEFAULT FALSE ,
     `passwd` varchar(100)  NOT NULL ,
-    `color` varchar(6)  NULL ,
+    `color` varchar(6)  NOT NULL ,
     `url` varchar(100)  NOT NULL ,
     `author` int(10)  NOT NULL ,
     `createAt` dateTime  DEFAULT CURRENT_TIMESTAMP ,

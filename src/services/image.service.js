@@ -1,5 +1,5 @@
 const knex = require("../database/knex");
-class imageService {
+class ImageService {
     constructor() {
         this.images = knex("images");
     }
@@ -52,4 +52,4 @@ class imageService {
     }
 }
 
-module.exports = imageService;
+module.exports = ImageService;

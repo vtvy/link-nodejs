@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const userController = require("./controllers/user.controller");
 const imageController = require("./controllers/image.controller");
-const linkController = require("./controllers/image.controller");
+const linkController = require("./controllers/link.controller");
+const noteController = require("./controllers/note.controller");
 const multer = require("multer");
 const storage = require("./middleware/multer");
 
@@ -33,7 +34,10 @@ app.route("/api/link")
     .post(linkController.create)
     .delete(linkController.deleteAll);
 
-app.route("/api/contacts/favorite").get(userController.findAllFavorite);
+app.route("/api/note")
+    .get(noteController.findAll)
+    .post(noteController.create)
+    .delete(noteController.deleteAll);
 
 app.route("/api/contacts/:id(\\d+)")
     .get(userController.findOne)

@@ -19,16 +19,16 @@ exports.create = async (req, res, next) => {
 };
 
 exports.findAll = async (req, res, next) => {
-    let users = [];
-
+    let links = [];
     try {
-        const userService = new LinkService();
+        const linkService = new LinkService();
         const { name } = req.query;
         if (name) {
-            users = await userService.findByName(name);
+            links = await linkService.findByName(name);
         } else {
-            users = await userService.all();
+            links = await linkService.all();
         }
+        console.log(links);
     } catch (error) {
         console.log(error);
         return next(
@@ -36,13 +36,13 @@ exports.findAll = async (req, res, next) => {
         );
     }
 
-    return res.send(users);
+    return res.send(links);
 };
 
 exports.findOne = async (req, res, next) => {
     try {
-        const userService = new LinkService();
-        const contact = await userService.findById(req.params.id);
+        const linkService = new LinkService();
+        const contact = await linkService.findById(req.params.id);
         if (!contact) {
             return next(new ApiError(404, "Contact not found"));
         }
@@ -64,8 +64,8 @@ exports.update = async (req, res, next) => {
     }
 
     try {
-        const userService = new LinkService();
-        const updated = await userService.update(req.params.id, req.body);
+        const linkService = new LinkService();
+        const updated = await linkService.update(req.params.id, req.body);
         if (!updated) {
             return next(new ApiError(404, "Contact not found"));
         }
@@ -83,8 +83,8 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
     try {
-        const userService = new LinkService();
-        const deleted = await userService.delete(req.params.id);
+        const linkService = new LinkService();
+        const deleted = await linkService.delete(req.params.id);
         if (!deleted) {
             return next(new ApiError(404, "Contact not found"));
         }
@@ -102,8 +102,8 @@ exports.delete = async (req, res, next) => {
 
 exports.findAllFavorite = async (req, res, next) => {
     try {
-        const userService = new LinkService();
-        const contacts = await userService.allFavorite();
+        const linkService = new LinkService();
+        const contacts = await linkService.allFavorite();
         return res.send(contacts);
     } catch (error) {
         console.log(error);
@@ -118,8 +118,8 @@ exports.findAllFavorite = async (req, res, next) => {
 
 exports.deleteAll = async (req, res, next) => {
     try {
-        const userService = new LinkService();
-        const deleted = await userService.deleteAll();
+        const linkService = new LinkService();
+        const deleted = await linkService.deleteAll();
         return res.send({
             message: `${deleted} contacts were deleted successfully`,
         });

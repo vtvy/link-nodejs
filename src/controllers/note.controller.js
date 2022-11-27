@@ -1,28 +1,27 @@
-const FolderService = require("../services/folder.service");
+const NoteService = require("../services/note.service");
 const ApiError = require("../api-error");
 
-// Create and Save a new folder
+// Create and Save a new note
 exports.create = async (req, res, next) => {
     if (!req.body?.name) {
         return next(new ApiError(400, "Fields can not be empty"));
     }
     try {
-        const folderService = new FolderService();
-        const folder = await folderService.create(req.body);
-        return res.send(folder);
+        const noteService = new NoteService();
+        const note = await noteService.create(req.body);
+        return res.send(note);
     } catch (error) {
         console.log(error);
         return next(
-            new ApiError(500, "An error occurred while creating the folder")
+            new ApiError(500, "An error occurred while creating the note")
         );
     }
 };
 
 exports.findAll = async (req, res, next) => {
     let users = [];
-
     try {
-        const userService = new FolderService();
+        const userService = new NoteService();
         const { name } = req.query;
         if (name) {
             users = await userService.findByName(name);
@@ -32,7 +31,7 @@ exports.findAll = async (req, res, next) => {
     } catch (error) {
         console.log(error);
         return next(
-            new ApiError(500, "An error occorred while retrieving folders")
+            new ApiError(500, "An error occorred while retrieving notes")
         );
     }
 
@@ -41,19 +40,16 @@ exports.findAll = async (req, res, next) => {
 
 exports.findOne = async (req, res, next) => {
     try {
-        const userService = new FolderService();
-        const folder = await userService.findById(req.params.id);
-        if (!folder) {
-            return next(new ApiError(404, "folder not found"));
+        const userService = new NoteService();
+        const note = await userService.findById(req.params.id);
+        if (!note) {
+            return next(new ApiError(404, "note not found"));
         }
-        return res.send(folder);
+        return res.send(note);
     } catch (error) {
         console.log(error);
         return next(
-            new ApiError(
-                500,
-                `Error retrieving folder with id=${req.params.id}`
-            )
+            new ApiError(500, `Error retrieving note with id=${req.params.id}`)
         );
     }
 };
@@ -64,53 +60,47 @@ exports.update = async (req, res, next) => {
     }
 
     try {
-        const userService = new FolderService();
+        const userService = new NoteService();
         const updated = await userService.update(req.params.id, req.body);
         if (!updated) {
-            return next(new ApiError(404, "folder not found"));
+            return next(new ApiError(404, "note not found"));
         }
-        return res.send({ message: "folder was updated successfully" });
+        return res.send({ message: "note was updated successfully" });
     } catch (error) {
         console.log(error);
         return next(
-            new ApiError(
-                500,
-                `Could not updated folder with id=${req.params.id}`
-            )
+            new ApiError(500, `Could not updated note with id=${req.params.id}`)
         );
     }
 };
 
 exports.delete = async (req, res, next) => {
     try {
-        const userService = new FolderService();
+        const userService = new NoteService();
         const deleted = await userService.delete(req.params.id);
         if (!deleted) {
-            return next(new ApiError(404, "folder not found"));
+            return next(new ApiError(404, "note not found"));
         }
-        return res.send({ message: "folder was deleted successfully" });
+        return res.send({ message: "note was deleted successfully" });
     } catch (error) {
         console.log(error);
         return next(
-            new ApiError(
-                500,
-                `Could not delete folder with id=${req.params.id}`
-            )
+            new ApiError(500, `Could not delete note with id=${req.params.id}`)
         );
     }
 };
 
 exports.findAllFavorite = async (req, res, next) => {
     try {
-        const userService = new FolderService();
-        const folders = await userService.allFavorite();
-        return res.send(folders);
+        const userService = new NoteService();
+        const notes = await userService.allFavorite();
+        return res.send(notes);
     } catch (error) {
         console.log(error);
         return next(
             new ApiError(
                 500,
-                "An error occurred while retrieving favorite folders"
+                "An error occurred while retrieving favorite notes"
             )
         );
     }
@@ -118,15 +108,15 @@ exports.findAllFavorite = async (req, res, next) => {
 
 exports.deleteAll = async (req, res, next) => {
     try {
-        const userService = new FolderService();
+        const userService = new NoteService();
         const deleted = await userService.deleteAll();
         return res.send({
-            message: `${deleted} folders were deleted successfully`,
+            message: `${deleted} notes were deleted successfully`,
         });
     } catch (error) {
         console.log(error);
         return next(
-            new ApiError(500, "An error occurred while removing all folders")
+            new ApiError(500, "An error occurred while removing all notes")
         );
     }
 };
