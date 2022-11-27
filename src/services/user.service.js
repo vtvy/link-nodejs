@@ -6,7 +6,7 @@ class UserService {
     // Define methods for accessing the database
     #getUser(payload) {
         const users = { ...payload };
-        const userProperties = ["name", "username", "password"];
+        const userProperties = ["name", "username", "passwd"];
         // Remove non-User properties
         Object.keys(users).forEach(function (key) {
             if (userProperties.indexOf(key) == -1) {
@@ -15,13 +15,13 @@ class UserService {
         });
         return users;
     }
-
+    //
     async create(payload) {
         const user = this.#getUser(payload);
         const [id] = await this.users.insert(user);
         return { id, ...user };
     }
-
+    //
     async all() {
         return await this.users.select("*");
     }

@@ -1,8 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const userController = require("./controllers/user.controller");
+const imageController = require("./controllers/image.controller");
+const linkController = require("./controllers/image.controller");
+const multer = require("multer");
+const storage = require("./middleware/multer");
+
+const upload = multer({ storage });
+
 const ApiError = require("./api-error");
-const { restart } = require("nodemon");
 
 const app = express();
 
@@ -16,6 +22,16 @@ app.route("/api/user")
     .get(userController.findAll)
     .post(userController.create)
     .delete(userController.deleteAll);
+
+app.route("/api/image")
+    .get(imageController.findAll)
+    .post(upload.single("file"), imageController.create)
+    .delete(imageController.deleteAll);
+
+app.route("/api/link")
+    .get(linkController.findAll)
+    .post(linkController.create)
+    .delete(linkController.deleteAll);
 
 app.route("/api/contacts/favorite").get(userController.findAllFavorite);
 
