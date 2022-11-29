@@ -23,7 +23,16 @@ class ImageService {
     }
     //
     async all() {
-        return await this.images.select("*");
+        return await this.images
+            .column(
+                "id",
+                "name",
+                "author",
+                "createAt",
+                "updateAt",
+                knex.raw("2 as type")
+            )
+            .select();
     }
 
     async findByName(name) {

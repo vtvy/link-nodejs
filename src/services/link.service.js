@@ -34,7 +34,20 @@ class LinkService {
     }
     //
     async all() {
-        return await this.links.select("*");
+        return await this.links
+            .column(
+                "id",
+                "name",
+                "author",
+                "public",
+                "passwd",
+                "color",
+                "url",
+                "createAt",
+                "updateAt",
+                knex.raw("1 as type")
+            )
+            .select();
     }
 
     async findByName(name) {

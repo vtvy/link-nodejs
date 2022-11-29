@@ -23,7 +23,17 @@ class NoteService {
     }
     //
     async all() {
-        return await this.notes.select("*");
+        return await this.notes
+            .column(
+                "id",
+                "name",
+                "author",
+                "content",
+                "createAt",
+                "updateAt",
+                knex.raw("3 as type")
+            )
+            .select();
     }
 
     async findByName(name) {

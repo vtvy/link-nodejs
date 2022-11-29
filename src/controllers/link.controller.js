@@ -28,7 +28,6 @@ exports.findAll = async (req, res, next) => {
         } else {
             links = await linkService.all();
         }
-        console.log(links);
     } catch (error) {
         console.log(error);
         return next(
