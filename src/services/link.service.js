@@ -21,7 +21,7 @@ class LinkService {
             }
         });
         //remove # from #rrggbb
-        if (links.color) {
+        if (links.color.length === 7) {
             links.color = links.color.substring(1);
         }
         return links;
@@ -30,7 +30,7 @@ class LinkService {
     async create(payload) {
         const link = this.#getLink(payload);
         const [id] = await this.links.insert(link);
-        return { id, ...link };
+        return { id, ...link, type: 1, createAt: newDate().toJSON() };
     }
     //
     async all() {
@@ -58,13 +58,14 @@ class LinkService {
         return await this.links.where("id", id).select("*").first();
     }
 
-    async update(id, payload) {
+    async update(payload) {
+        const id = payload.id;
         const update = this.#getLink(payload);
         return await this.links.where("id", id).update(update);
     }
 
     async delete(id) {
-        return await this.links.where("id", id).del();
+        return await this.links.where({ id: id }, { author: 1 }).del();
     }
 
     async allFavorite() {

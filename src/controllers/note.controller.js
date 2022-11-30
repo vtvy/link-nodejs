@@ -61,7 +61,7 @@ exports.update = async (req, res, next) => {
 
     try {
         const userService = new NoteService();
-        const updated = await userService.update(req.params.id, req.body);
+        const updated = await userService.update(req.body);
         if (!updated) {
             return next(new ApiError(404, "note not found"));
         }

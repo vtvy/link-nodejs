@@ -19,7 +19,7 @@ class NoteService {
     async create(payload) {
         const note = this.#getnote(payload);
         const [id] = await this.notes.insert(note);
-        return { id, ...note };
+        return { id, ...note, type: 3, createAt: new Date().toJSON() };
     }
     //
     async all() {
@@ -44,13 +44,14 @@ class NoteService {
         return await this.notes.where("id", id).select("*").first();
     }
 
-    async update(id, payload) {
+    async update(payload) {
+        const id = payload.id;
         const update = this.#getnote(payload);
         return await this.notes.where("id", id).update(update);
     }
 
     async delete(id) {
-        return await this.notes.where("id", id).del();
+        return await this.notes.where({ id: id }, { author: 1 }).del();
     }
 
     async allFavorite() {

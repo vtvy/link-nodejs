@@ -19,7 +19,7 @@ class ImageService {
     async create(payload) {
         const image = this.#getimage(payload);
         const [id] = await this.images.insert(image);
-        return { id, ...image };
+        return { id, ...image, type: 2, createAt: new Date().toJSON() };
     }
     //
     async all() {
@@ -49,7 +49,11 @@ class ImageService {
     }
 
     async delete(id) {
-        return await this.images.where("id", id).del();
+        const image = await this.images.where("id", id).select("name").first();
+        const deleted = await this.images
+            .where({ id: id }, { author: 1 })
+            .del();
+        return { name: image.name, deleted };
     }
 
     async allFavorite() {

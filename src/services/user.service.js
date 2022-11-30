@@ -19,7 +19,7 @@ class UserService {
     async create(payload) {
         const user = this.#getUser(payload);
         const [id] = await this.users.insert(user);
-        return { id, ...user };
+        return { id, ...user, createAt: new Date().toJSON() };
     }
     //
     async all() {

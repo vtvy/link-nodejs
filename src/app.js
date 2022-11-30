@@ -21,30 +21,27 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to contact book application." });
 });
 
-app.route("/api/user")
-    .get(userController.findAll)
-    .post(userController.create)
-    .delete(userController.deleteAll);
+app.route("/api/user").get(userController.findAll).post(userController.create);
+
+app.route("/api/user/:id").delete(imageController.update);
 
 app.route("/api/image")
     .get(imageController.findAll)
-    .post(upload.single("file"), imageController.create)
-    .delete(imageController.deleteAll);
+    .post(upload.single("file"), imageController.create);
 
-app.route("/api/link")
-    .get(linkController.findAll)
-    .post(linkController.create)
-    .delete(linkController.deleteAll);
+app.route("/api/image/:id").delete(imageController.delete);
 
-app.route("/api/note")
-    .get(noteController.findAll)
-    .post(noteController.create)
-    .delete(noteController.deleteAll);
+app.route("/api/link").get(linkController.findAll).post(linkController.create);
 
-app.route("/api/contacts/:id(\\d+)")
-    .get(userController.findOne)
-    .put(userController.update)
-    .delete(userController.delete);
+app.route("/api/link/:id")
+    .put(linkController.update)
+    .delete(linkController.delete);
+
+app.route("/api/note").get(noteController.findAll).post(noteController.create);
+
+app.route("/api/note/:id")
+    .put(noteController.update)
+    .delete(noteController.delete);
 
 // Handle 404 response.
 app.use((req, res, next) => {
