@@ -101,34 +101,3 @@ exports.delete = async (req, res, next) => {
         );
     }
 };
-
-exports.findAllFavorite = async (req, res, next) => {
-    try {
-        const userService = new UserService();
-        const Users = await userService.allFavorite();
-        return res.send(Users);
-    } catch (error) {
-        console.log(error);
-        return next(
-            new ApiError(
-                500,
-                "An error occurred while retrieving favorite Users"
-            )
-        );
-    }
-};
-
-exports.deleteAll = async (req, res, next) => {
-    try {
-        const userService = new UserService();
-        const deleted = await userService.deleteAll();
-        return res.send({
-            message: `${deleted} Users were deleted successfully`,
-        });
-    } catch (error) {
-        console.log(error);
-        return next(
-            new ApiError(500, "An error occurred while removing all Users")
-        );
-    }
-};

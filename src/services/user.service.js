@@ -16,10 +16,6 @@ class UserService {
         return users;
     }
 
-    async all() {
-        return await this.users.select("*");
-    }
-
     async findByName(name) {
         return await this.users.where("name", "like", `%${name}%`).select("*");
     }

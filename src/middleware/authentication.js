@@ -9,7 +9,11 @@ const verifyToken = (req, res, next) => {
         const decoded = jwt.verify(token, process.env.SECRET_TOKEN_CODE);
         req.body.author = decoded.id;
         req.body.role = decoded.role;
-        next();
+        if (decoded) {
+            next();
+        } else {
+            return next(new ApiError(403, "Invalid authentication"));
+        }
     } catch (error) {
         return next(new ApiError(403, "Invalid authentication"));
     }

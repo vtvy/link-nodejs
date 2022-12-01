@@ -19,41 +19,44 @@ const ApiError = require("./api-error");
 const app = express();
 
 app.use(cors(), express.json());
-console.log(__dirname);
 app.use("/image", express.static(__dirname + "/images"));
 
-app.get("/", (req, res) => {
-    res.json({ message: "Welcome to contact book application." });
-});
+app.get("/api/guest", linkController.findGuest);
 
 app.route("/api/aduser")
     .get(verifyAdminToken, aduserController.findAll)
     .post(verifyAdminToken, aduserController.create);
 
 app.route("/api/aduser/:id")
-    .get(aduserController.findOne)
-    .put(aduserController.update)
-    .delete(aduserController.delete);
+    .get(verifyAdminToken, aduserController.findOne)
+    .put(verifyAdminToken, aduserController.update)
+    .delete(verifyAdminToken, aduserController.delete);
 
-app.route("/api/user").get(userController.update).post(userController.login);
+app.route("/api/user")
+    .put(verifyToken, userController.update)
+    .post(userController.login);
 
 app.route("/api/image", verifyToken)
-    .get(imageController.findAll)
-    .post(upload.single("file"), imageController.create);
+    .get(verifyToken, imageController.findAll)
+    .post(verifyToken, upload.single("file"), imageController.create);
 
-app.route("/api/image/:id").delete(imageController.delete);
+app.route("/api/image/:id").delete(verifyToken, imageController.delete);
 
-app.route("/api/link").get(linkController.findAll).post(linkController.create);
+app.route("/api/link")
+    .get(verifyToken, linkController.findAll)
+    .post(verifyToken, linkController.create);
 
 app.route("/api/link/:id")
-    .put(linkController.update)
-    .delete(linkController.delete);
+    .put(verifyToken, linkController.update)
+    .delete(verifyToken, linkController.delete);
 
-app.route("/api/note").get(noteController.findAll).post(noteController.create);
+app.route("/api/note")
+    .get(verifyToken, noteController.findAll)
+    .post(verifyToken, noteController.create);
 
 app.route("/api/note/:id")
-    .put(noteController.update)
-    .delete(noteController.delete);
+    .put(verifyToken, noteController.update)
+    .delete(verifyToken, noteController.delete);
 
 // Handle 404 response.
 app.use((req, res, next) => {

@@ -30,7 +30,7 @@ class LinkService {
     async create(payload) {
         const link = this.#getLink(payload);
         const [id] = await this.links.insert(link);
-        return { id, ...link, type: 1, createAt: newDate().toJSON() };
+        return { id, ...link, type: 1, createAt: new Date().toJSON() };
     }
     //
     async all() {
@@ -52,6 +52,33 @@ class LinkService {
 
     async findByName(name) {
         return await this.links.where("name", "like", `%${name}%`).select("*");
+    }
+
+    async findPublic() {
+        const nonPassLinks = await this.links
+            .where({ public: true, passwd: "" })
+            .column(
+                "id",
+                "name",
+                "author",
+                "color",
+                "url",
+                "createAt",
+                knex.raw("0 as usePass")
+            )
+            .select();
+        const havingPassLinks = await this.links
+            .whereNot({ public: true, passwd: "" })
+            .column(
+                "id",
+                "name",
+                "author",
+                "color",
+                "createAt",
+                knex.raw("1 as usePass")
+            )
+            .select();
+        return nonPassLinks.concat(havingPassLinks);
     }
 
     async findById(id) {

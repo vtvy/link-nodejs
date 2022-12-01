@@ -54,6 +54,20 @@ exports.findOne = async (req, res, next) => {
     }
 };
 
+exports.findGuest = async (req, res, next) => {
+    try {
+        const linkService = new LinkService();
+        const link = await linkService.findPublic();
+        if (!link) {
+            return next(new ApiError(404, "Public links are not found"));
+        }
+        return res.send(link);
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(500, `Error retrieving public links`));
+    }
+};
+
 exports.update = async (req, res, next) => {
     if (Object.keys(req.body).length === 0) {
         return next(new ApiError(400, "Data to update can not be empty"));
