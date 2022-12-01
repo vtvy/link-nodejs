@@ -1,5 +1,5 @@
 const knex = require("../database/knex");
-class UserService {
+class AdUserService {
     constructor() {
         this.users = knex("users");
     }
@@ -15,7 +15,13 @@ class UserService {
         });
         return users;
     }
-
+    //
+    async create(payload) {
+        const user = this.#getUser(payload);
+        const [id] = await this.users.insert(user);
+        return { id, ...user, createAt: new Date().toJSON() };
+    }
+    //
     async all() {
         return await this.users.select("*");
     }
@@ -25,9 +31,13 @@ class UserService {
     }
 
     async findByUsername(username) {
+        return await this.users.where("username", username).select().first();
+    }
+
+    async findById(id) {
         return await this.users
-            .where("username", username)
-            .select("id", "name", "avatar", "passwd", "role")
+            .where("id", id)
+            .select("username", "name")
             .first();
     }
 
@@ -41,4 +51,4 @@ class UserService {
     }
 }
 
-module.exports = UserService;
+module.exports = AdUserService;

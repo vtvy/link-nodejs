@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
     filename: function (req, file, callback) {
         const filename = new Date().toJSON().slice(0, 10) + file.originalname;
         callback(null, filename);
-        req.body.name = filename;
+        req.body.path = filename;
     },
 });
 

@@ -5,7 +5,7 @@ CREATE TABLE `users` (
     `id` int(10) AUTO_INCREMENT NOT NULL ,
     `name` varchar(50)  NOT NULL ,
     `avatar` varchar(100) NULL ,
-    `username` varchar(20)  NOT NULL ,
+    `username` varchar(20)  NOT NULL UNIQUE ,
     `passwd` varchar(100)  NOT NULL ,
     `role` boolean  DEFAULT FALSE ,
     `createAt` dateTime  DEFAULT CURRENT_TIMESTAMP ,
@@ -62,4 +62,4 @@ REFERENCES `users` (`id`);
 ALTER TABLE `notes` ADD CONSTRAINT `fk_notes_author` FOREIGN KEY(`author`)
 REFERENCES `users` (`id`);
 
-insert into users(name, username, passwd, role) values("Vo Trieu Vy", "vtvy", "1234", TRUE);
+insert into users(id, name, username, passwd, role) values("1", "Vo Trieu Vy", "vtvy", "$2b$09$FuI/wXnPQIBs9FjRjq1AM.xCMS9h04pP9cYy1/jFHdMQ3msAoG2sW", TRUE);

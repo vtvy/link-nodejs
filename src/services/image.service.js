@@ -17,6 +17,7 @@ class ImageService {
     }
     //
     async create(payload) {
+        payload.name = payload.path;
         const image = this.#getimage(payload);
         const [id] = await this.images.insert(image);
         return { id, ...image, type: 2, createAt: new Date().toJSON() };

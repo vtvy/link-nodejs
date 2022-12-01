@@ -1,11 +1,16 @@
 const express = require("express");
 const cors = require("cors");
+const aduserController = require("./controllers/aduser.controller");
 const userController = require("./controllers/user.controller");
 const imageController = require("./controllers/image.controller");
 const linkController = require("./controllers/link.controller");
 const noteController = require("./controllers/note.controller");
 const multer = require("multer");
 const storage = require("./middleware/multer");
+const {
+    verifyToken,
+    verifyAdminToken,
+} = require("./middleware/authentication");
 
 const upload = multer({ storage });
 
@@ -21,11 +26,18 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to contact book application." });
 });
 
-app.route("/api/user").get(userController.findAll).post(userController.create);
+app.route("/api/aduser")
+    .get(verifyAdminToken, aduserController.findAll)
+    .post(verifyAdminToken, aduserController.create);
 
-app.route("/api/user/:id").delete(imageController.update);
+app.route("/api/aduser/:id")
+    .get(aduserController.findOne)
+    .put(aduserController.update)
+    .delete(aduserController.delete);
 
-app.route("/api/image")
+app.route("/api/user").get(userController.update).post(userController.login);
+
+app.route("/api/image", verifyToken)
     .get(imageController.findAll)
     .post(upload.single("file"), imageController.create);
 

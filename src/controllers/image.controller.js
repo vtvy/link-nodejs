@@ -4,7 +4,7 @@ const fs = require("fs");
 
 // Create and Save a new image
 exports.create = async (req, res, next) => {
-    if (!req.body?.name) {
+    if (!req.body?.path) {
         return next(new ApiError(400, "Fields can not be empty"));
     }
     try {
